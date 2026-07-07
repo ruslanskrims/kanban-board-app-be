@@ -6,16 +6,14 @@ namespace KanbanBoardAPI.Controllers
 {
     [ApiController]
     [Route("tasks")]
+    [Produces("application/json")]
     public class TasksController : ControllerBase
     {
         private readonly ITaskService _taskService;
 
-        private readonly ILogger<TasksController> _logger;
-
-        public TasksController(ITaskService taskService, ILogger<TasksController> logger)
+        public TasksController(ITaskService taskService)
         {
             _taskService = taskService;
-            _logger = logger;
         }
 
         [HttpGet]

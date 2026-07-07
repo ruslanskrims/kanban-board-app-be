@@ -3,7 +3,6 @@ using KanbanBoardAPI.Controllers;
 using KanbanBoardAPI.DTO;
 using KanbanBoardAPI.Tests.Helpers;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using Moq;
 
 namespace KanbanBoardAPI.Tests.Controllers;
@@ -11,14 +10,12 @@ namespace KanbanBoardAPI.Tests.Controllers;
 public class TasksControllerTests
 {
     private readonly Mock<ITaskService> _mockTaskService;
-    private readonly Mock<ILogger<TasksController>> _mockLogger;
     private readonly TasksController _controller;
 
     public TasksControllerTests()
     {
         _mockTaskService = new Mock<ITaskService>();
-        _mockLogger = new Mock<ILogger<TasksController>>();
-        _controller = new TasksController(_mockTaskService.Object, _mockLogger.Object);
+        _controller = new TasksController(_mockTaskService.Object);
     }
 
     [Fact]
