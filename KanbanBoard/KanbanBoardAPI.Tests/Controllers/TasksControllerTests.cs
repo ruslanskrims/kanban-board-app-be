@@ -1,6 +1,5 @@
 ﻿using KanbanAPI.Services;
 using KanbanBoardAPI.Controllers;
-using KanbanBoardAPI.DTO;
 using KanbanBoardAPI.Tests.Helpers;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
@@ -23,7 +22,7 @@ public class TasksControllerTests
     {
         var emptyTaskList = TestDataHelper.GetEmptyTaskDtoList();
         _mockTaskService
-            .Setup(service => service.GetAllTasks())
+            .Setup(service => service.GetAllTasksAsync())
             .ReturnsAsync(emptyTaskList);
 
         var result = await _controller.GetTasks();
@@ -40,7 +39,7 @@ public class TasksControllerTests
     {
         var taskDtos = TestDataHelper.GetSampleTaskDtos();
         _mockTaskService
-            .Setup(service => service.GetAllTasks())
+            .Setup(service => service.GetAllTasksAsync())
             .ReturnsAsync(taskDtos);
 
         var result = await _controller.GetTasks();

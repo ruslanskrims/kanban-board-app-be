@@ -1,7 +1,6 @@
 using KanbanAPI.Services;
 using KanbanBoardAPI.Db;
-using KanbanBoardAPI.DTO;
-using KanbanBoardAPI.Models;
+using KanbanBoardAPI.Mappings;
 using KanbanBoardAPI.Services;
 using Microsoft.EntityFrameworkCore;
 
@@ -14,9 +13,7 @@ builder.Services.AddDbContext<TaskDbContext>(options =>
 builder.Services.AddScoped<ITaskService, TaskService>();
 builder.Services.AddAutoMapper(cfg =>
 {
-    cfg.CreateMap<KanbanTask, TaskDto>()
-        .ForMember(dest => dest.Id,
-            opt => opt.MapFrom(src => src.Id));
+    cfg.AddProfile<MappingProfile>();
 });
 
 builder.Services.AddEndpointsApiExplorer();
@@ -36,64 +33,10 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
-using (var scope = app.Services.CreateScope())
+using(var scope = app.Services.CreateScope())
 {
-    var dbContext = scope.ServiceProvider.GetRequiredService<TaskDbContext>();
-
-    try
-    {
-        dbContext.Database.EnsureCreated();
-        if (!dbContext.Tasks.Any())
-        {
-
-            var sampleTasks = new List<KanbanTask>
-            {
-                new KanbanTask
-                {
-                    Id = Guid.NewGuid(),
-                    Title = "[TOL-1] Initiate the project workflow",
-                    Description = "Set up the project structure and install dependencies",
-                    Status = KanbanTaskStatus.Done,
-                    CreatedAt = DateTime.UtcNow.AddDays(-5),
-                    UpdatedAt = DateTime.UtcNow.AddDays(-5)
-                },
-                new KanbanTask
-                {
-                    Id = Guid.NewGuid(),
-                    Title = "[TOL-2] Setup the database schema and tables",
-                    Description = "Design and implement database models",
-                    Status = KanbanTaskStatus.InProgress,
-                    CreatedAt = DateTime.UtcNow.AddDays(-3),
-                    UpdatedAt = DateTime.UtcNow.AddDays(-3)
-                },
-                new KanbanTask
-                {
-                    Id = Guid.NewGuid(),
-                    Title = "[TOL-3] Configure TypeScript and ESLint",
-                    Description = "Configure TypeScript and ESLint for the frontend project",
-                    Status = KanbanTaskStatus.Todo,
-                    CreatedAt = DateTime.UtcNow.AddDays(-1),
-                    UpdatedAt = DateTime.UtcNow.AddDays(-1)
-                },
-                new KanbanTask
-                {
-                    Id = Guid.NewGuid(),
-                    Title = "[TOL-4] Configure ALL",
-                    Description = "Configure ALL",
-                    Status = KanbanTaskStatus.Todo,
-                    CreatedAt = DateTime.UtcNow.AddDays(-1),
-                    UpdatedAt = DateTime.UtcNow.AddDays(-1)
-                }
-            };
-
-            dbContext.Tasks.AddRange(sampleTasks);
-            await dbContext.SaveChangesAsync();
-        }
-    }
-    catch (Exception ex)
-    {
-        throw; 
-    }
+    var db = scope.ServiceProvider.GetRequiredService<TaskDbContext>();
+    db.Database.EnsureCreated();
 }
 
 if (app.Environment.IsDevelopment())
