@@ -1,0 +1,42 @@
+﻿# Visual Studio
+.vs/
+*.user
+*.suo
+*.sln.docstates
+
+# Build outputs
+bin/
+obj/
+Debug/
+Release/
+*.dll
+*.exe
+*.pdb
+*.so
+*.dylib
+*.a
+
+# Database files
+*.db
+*.db-shm
+*.db-wal
+
+# Test results
+TestResults/
+*.testlog
+
+# Coverage files
+*.coverage
+*.coveragexml
+
+# Rider
+.idea/
+*.iml
+
+# User settings
+*.userprefs
+*.user
+
+# Node
+node_modules/
+npm-debug.log*
