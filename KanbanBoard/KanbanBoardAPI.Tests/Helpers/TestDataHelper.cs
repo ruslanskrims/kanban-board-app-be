@@ -1,5 +1,4 @@
-﻿using KanbanBoardAPI.DTO;
-using KanbanBoardAPI.Models;
+﻿using KanbanBoardAPI.Models;
 
 namespace KanbanBoardAPI.Tests.Helpers;
 
